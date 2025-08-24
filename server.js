@@ -4,12 +4,11 @@ require('dotenv').config();
 
 const app = express();
 
-// --- NEW --- CORS Configuration
-// This tells our server to only accept requests from our deployed frontend.
+// Final CORS Configuration
 const allowedOrigins = [
-    'http://localhost:5173', // For local development
-    'http://localhost:8080', // For local Docker development
-    'https://project-manager-frontend-opal.vercel.app/login' // **REPLACE THIS with your actual Vercel URL**
+    'http://localhost:5173',
+    'http://localhost:8080',
+    'https://project-manager-frontend-ig71m2kc3.vercel.app' // Your exact URL is now included
 ];
 
 const corsOptions = {
@@ -24,16 +23,15 @@ const corsOptions = {
     }
 };
 
-app.use(cors(corsOptions)); // Use the new options
+app.use(cors(corsOptions));
 
-// Allow the server to accept and parse JSON in request bodies
 app.use(express.json());
 
-// --- API Routes ---
+// API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
-// --- Server Initialization ---
+// Server Initialization
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server started on port ${PORT}`));
