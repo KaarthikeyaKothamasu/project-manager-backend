@@ -4,22 +4,18 @@ require('dotenv').config();
 
 const app = express();
 
-// Final CORS Configuration
-const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:8080',
-    'https://project-manager-frontend-ig71m2kc3.vercel.app' // Your exact URL is now included
-];
-
+// Final, Flexible CORS Configuration
 const corsOptions = {
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
+        // Allow requests with no origin (like mobile apps or Postman)
         if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-            return callback(new Error(msg), false);
+
+        // Allow localhost and any vercel.app domain
+        if (origin.startsWith('http://localhost') || origin.endsWith('.vercel.app')) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
         }
-        return callback(null, true);
     }
 };
 
